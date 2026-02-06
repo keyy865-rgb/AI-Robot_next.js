@@ -614,7 +614,7 @@ export default function Playground({
          
           {config.settings.chat && (
             <PlaygroundTile
-              title="Chat"
+              title={<span className="text-white opacity-100">Chat</span>} 
               backgroundColor="gray-900"
               className="h-full grow basis-3/4 hidden lg:flex border border-gray-800 rounded-[10px]"
             >
