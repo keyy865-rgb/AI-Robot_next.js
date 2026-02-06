@@ -148,7 +148,7 @@ export default function Playground({
     }
 
     return (
-      <div className="flex flex-col w-full grow text-gray-950 bg-black rounded-sm border border-gray-800 relative">
+      <div className="flex flex-col w-full grow text-gray-900 bg-black rounded-sm border border-gray-800 relative">
         {content}
       </div>
     );
@@ -250,14 +250,20 @@ export default function Playground({
 
   const settingsTileContent = useMemo(() => {
     return (
-      <div className="flex flex-col h-full w-full items-start overflow-y-auto">
+      <div className="flex flex-col h-full w-full items-start overflow-y-auto p-4 gap-4 bg-transparent">
+
+        {config.settings.outputs.audio && (
+          <ConfigurationPanelItem title="Agent Audio">
+            {audioTileContent}
+          </ConfigurationPanelItem>
+        )}
         {config.description && (
           <ConfigurationPanelItem title="Description">
             {config.description}
           </ConfigurationPanelItem>
         )}
 
-        <ConfigurationPanelItem title="Room">
+        {/*<ConfigurationPanelItem title="Room">
           <div className="flex flex-col gap-2">
             <NameValueRow
               name="Room name"
@@ -418,7 +424,8 @@ export default function Playground({
               connectionState={connectionState}
             />
           </div>
-        </ConfigurationPanelItem>
+        </ConfigurationPanelItem> 
+        */}
 
         {connectionState === ConnectionState.Connected &&
           config.settings.inputs.screen && (
@@ -448,7 +455,7 @@ export default function Playground({
               )}
             </ConfigurationPanelItem>
           )}
-        {connectionState === ConnectionState.Connected && agent.isConnected && (
+        {/*{connectionState === ConnectionState.Connected && agent.isConnected && (
           <RpcPanel
             config={config}
             rpcMethod={rpcMethod}
@@ -457,8 +464,9 @@ export default function Playground({
             setRpcPayload={setRpcPayload}
             handleRpcCall={handleRpcCall}
           />
-        )}
-        {config.settings.inputs.camera && (
+        )}*/}
+
+        {/* {config.settings.inputs.camera && (
           <ConfigurationPanelItem title="Camera" source={Track.Source.Camera}>
             {session.local.cameraTrack ? (
               <div className="relative">
@@ -470,6 +478,8 @@ export default function Playground({
             ) : null}
           </ConfigurationPanelItem>
         )}
+        */}
+
         {config.settings.inputs.mic && (
           <ConfigurationPanelItem
             title="Microphone"
@@ -563,8 +573,8 @@ export default function Playground({
     content: (
       <PlaygroundTile
         padding={false}
-        backgroundColor="gray-950"
-        className="h-full w-full basis-1/4 items-start overflow-y-auto flex"
+        backgroundColor="gray-900"
+        className="hh-full w-full basis-1/4 items-start overflow-y-auto flex border border-gray-800"
         childrenClassName="h-full grow items-start"
       >
         {settingsTileContent}
@@ -574,11 +584,11 @@ export default function Playground({
 
   return (
     <SessionProvider session={session}>
-      <div className="flex flex-col h-full w-full">
+      <div className="flex flex-col h-full w-full bg-[#0a0a0a]">
         <PlaygroundHeader
           title={config.title}
           logo={logo}
-          githubLink={config.github_link}
+          githubLink={""}
           height={headerHeight}
           accentColor={config.settings.theme_color}
           connectionState={connectionState}
@@ -591,7 +601,7 @@ export default function Playground({
           }}
         />
         <div
-          className={`flex gap-4 py-4 grow w-full selection:bg-${config.settings.theme_color}-900`}
+          className={`flex gap-4 px-4 py-4 grow w-full bg-[#0a0a0a] selection:bg-${config.settings.theme_color}-900`}
           style={{ height: `calc(100% - ${headerHeight}px)` }}
         >
           <div className="flex flex-col grow basis-1/2 gap-4 h-full lg:hidden">
@@ -601,45 +611,21 @@ export default function Playground({
               initialTab={mobileTabs.length - 1}
             />
           </div>
-          <div
-            className={`flex-col grow basis-1/2 gap-4 h-full hidden lg:${
-              !config.settings.outputs.audio && !config.settings.outputs.video
-                ? "hidden"
-                : "flex"
-            }`}
-          >
-            {config.settings.outputs.video && (
-              <PlaygroundTile
-                title="Agent Video"
-                className="w-full h-full grow"
-                childrenClassName="justify-center"
-              >
-                {videoTileContent}
-              </PlaygroundTile>
-            )}
-            {config.settings.outputs.audio && (
-              <PlaygroundTile
-                title="Agent Audio"
-                className="w-full h-full grow"
-                childrenClassName="justify-center"
-              >
-                {audioTileContent}
-              </PlaygroundTile>
-            )}
-          </div>
-
+         
           {config.settings.chat && (
             <PlaygroundTile
-              title="Chat"
-              className="h-full grow basis-1/4 hidden lg:flex"
+              title={<span className="text-white opacity-100">Chat</span>} 
+              backgroundColor="gray-900"
+              className="h-full grow basis-3/4 hidden lg:flex border border-gray-800 rounded-[10px]"
             >
               {chatTileContent}
             </PlaygroundTile>
           )}
+          
           <PlaygroundTile
             padding={false}
-            backgroundColor="gray-950"
-            className="h-full w-full basis-1/4 items-start overflow-y-auto hidden max-w-[480px] lg:flex"
+            backgroundColor="gray-900"
+            className="h-full w-full basis-[25%] items-start overflow-y-auto hidden max-w-[480px] lg:flex border border-gray-800 rounded-[10px] "
             childrenClassName="h-full grow items-start"
           >
             {settingsTileContent}
